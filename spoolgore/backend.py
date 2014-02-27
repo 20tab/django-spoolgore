@@ -8,7 +8,7 @@ spoolgore_local = threading.local()
 
 class EmailBackend(BaseEmailBackend):
 
-    __tmp__ = "%s/tmp" % settings.SPOOLGORE_SPOOLDIR
+    __tmp__ = "%s/tmp" % settings.SPOOLGORE_DIRECTORY
 
     def send_messages(self, email_messages):
         pid = os.getpid()
@@ -27,7 +27,7 @@ class EmailBackend(BaseEmailBackend):
         """
         fd = -1
         try:
-            fd = os.open(settings.SPOOLGORE_SPOOLDIR, os.O_RDONLY)
+            fd = os.open(settings.SPOOLGORE_DIRECTORY, os.O_RDONLY)
             os.fsync(fd)
         finally:
             if fd > -1: os.close(fd)
@@ -38,7 +38,7 @@ class EmailBackend(BaseEmailBackend):
         spoolgore_local.counter += 1
         filename = "%f_%s_%d_%d_%d" % (time.time(), time.strftime("%Y.%m.%d.%H.%M.%S"), pid, tid, spoolgore_local.counter)
         tmp = "%s/%s" % (self.__tmp__, filename)
-        spool = "%s/%s" % (settings.SPOOLGORE_SPOOLDIR, filename)
+        spool = "%s/%s" % (settings.SPOOLGORE_DIRECTORY, filename)
 
         with open(tmp, 'w') as f:
             f.write(data)
