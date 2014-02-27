@@ -17,7 +17,7 @@ class EmailBackend(BaseEmailBackend):
         if not email_messages:
             return
         for email_message in email_messages:
-            if self._send(email_message, pid, tid):
+            if self._send(email_message.message().as_string(), pid, tid):
                 num_sent += 1
         return num_sent
 
