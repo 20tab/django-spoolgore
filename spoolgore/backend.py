@@ -38,6 +38,8 @@ class EmailBackend(BaseEmailBackend):
         spoolgore_local.counter += 1
         filename = "%f_%s_%d_%d_%d" % (time.time(), time.strftime("%Y.%m.%d.%H.%M.%S"), pid, tid, spoolgore_local.counter)
         tmp = "%s/%s" % (self.__tmp__, filename)
+        if not os.path.exists(self.__tmp__):
+            os.makedirs(self.__tmp__)
         spool = "%s/%s" % (settings.SPOOLGORE_DIRECTORY, filename)
 
         with open(tmp, 'w') as f:
